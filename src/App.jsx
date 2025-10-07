@@ -53,7 +53,7 @@ function App() {
   }
 
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <header className="bg-[#f1f1f0]">
         <Header addToCart={addToCart.length} addWishList={addWishList.length} />
@@ -68,25 +68,31 @@ function App() {
               <main className="pt-10">
                 <Features />
                 <Cart />
-                <Collections
-                  handleCart={handleCart}
-                  handleWishList={handleWishList}
-                  addWishList={addWishList}
-                />
-                <BestSales
-                  handleCart={handleCart}
-                  handleWishList={handleWishList}
-                  addWishList={addWishList}
-                />
-                <AlsoLike
-                  handleCart={handleCart}
-                  handleWishList={handleWishList}
-                  addWishList={addWishList}
-                />
+                <section id="shop">
+                  <Collections
+                    handleCart={handleCart}
+                    handleWishList={handleWishList}
+                    addWishList={addWishList}
+                  />
+                  <BestSales
+                    handleCart={handleCart}
+                    handleWishList={handleWishList}
+                    addWishList={addWishList}
+                  />
+                  <AlsoLike
+                    handleCart={handleCart}
+                    handleWishList={handleWishList}
+                    addWishList={addWishList}
+                  />
+                </section>
                 <ShopCollection />
                 <ImageVid />
-                <CustomersReview />
-                <BlogPost />
+                <section id="testimonials">
+                  <CustomersReview />
+                </section>
+                <section id="blog">
+                  <BlogPost />
+                </section>
                 <BrandLogo />
                 <section id="contact">
                   <NewsLetter />
@@ -125,7 +131,7 @@ function App() {
         <Footer1 />
         <Footer2 />
       </footer>
-    </Router>
+    </>
   );
 }
 
