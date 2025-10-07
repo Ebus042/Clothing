@@ -59,7 +59,10 @@ const Header = ({ addToCart, addWishList }) => {
 
         {/* Desktop Icons */}
         <div className="hidden lg:flex items-center z-50 gap-10 text-[#545454]">
-          <div className="relative">
+          <div
+            onClick={() => (window.location.href = "#/wishlist")}
+            className="relative"
+          >
             <p className="cursor-pointer text-xl hover:scale-125 hover:text-red-500 transition-all duration-500 ease-in-out">
               Wishlist
               {addWishList > 0 && (
@@ -70,7 +73,10 @@ const Header = ({ addToCart, addWishList }) => {
             </p>
           </div>
 
-          <div className="relative">
+          <div
+            onClick={() => (window.location.href = "#/carts")}
+            className="relative"
+          >
             <p className="cursor-pointer text-xl hover:scale-125 hover:text-red-500 transition-all duration-500 ease-in-out">
               Cart
               {addToCart > 0 && (
