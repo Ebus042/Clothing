@@ -54,7 +54,7 @@ const Header = ({ addToCart, addWishList }) => {
         {/* Desktop icons */}
         <div className="hidden lg:flex items-center gap-10 text-[#545454]">
           <div
-            onClick={() => (window.location.href = "#/wishlist")}
+            onClick={() => (window.location.href = "/Clothing/#/wishlist")}
             className="relative cursor-pointer"
           >
             <Heart className="w-6 h-6" />
@@ -65,7 +65,7 @@ const Header = ({ addToCart, addWishList }) => {
             )}
           </div>
           <div
-            onClick={() => (window.location.href = "#/carts")}
+            onClick={() => (window.location.href = "/Clothing/#/carts")}
             className="relative cursor-pointer"
           >
             <ShoppingCart className="w-6 h-6" />
