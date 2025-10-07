@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://ebus042.github.io/E-commerce-Clothing-brand/",
+  "homepage": "https://github.com/Ebus042/Clothing/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
