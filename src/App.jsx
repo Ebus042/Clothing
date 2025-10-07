@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -16,8 +15,7 @@ import Footer1 from "./components/Footer1";
 import CustomersReview from "./components/CustomersReview";
 import Footer2 from "./components/Footer2";
 import { useState } from "react";
-
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Wishlist from "./components/Wishlist";
 import AddCart from "./components/AddCart";
 import ScrollToTop from "./components/ScrollToTop";
@@ -26,38 +24,25 @@ function App() {
   const [addToCart, setAddToCart] = useState([]);
   const [addWishList, setAddWishList] = useState([]);
 
-  function handleWishList(item) {
-    setAddWishList((prev) => {
-      const exists = prev.find((p) => p.id === item.id);
-      if (exists) {
-        return prev.filter((p) => p.id !== item.id);
-      } else {
-        return [...prev, item];
-      }
-    });
-  }
-  function handleCart(item) {
-    setAddToCart((prev) => [...prev, item]);
-  }
+  const handleWishList = (item) => {
+    setAddWishList((prev) =>
+      prev.find((p) => p.id === item.id)
+        ? prev.filter((p) => p.id !== item.id)
+        : [...prev, item]
+    );
+  };
 
-  function removeWishlist(id) {
+  const handleCart = (item) => setAddToCart((prev) => [...prev, item]);
+  const removeWishlist = (id) =>
     setAddWishList((prev) => prev.filter((item) => item.id !== id));
-  }
-
-  function clearCart() {
-    setAddToCart([]);
-  }
-
-  function removeCart(id) {
+  const removeCart = (id) =>
     setAddToCart((prev) => prev.filter((item) => item.id !== id));
-  }
+  const clearCart = () => setAddToCart([]);
 
   return (
     <>
       <ScrollToTop />
-      <header className="bg-[#f1f1f0]">
-        <Header addToCart={addToCart.length} addWishList={addWishList.length} />
-      </header>
+      <Header addToCart={addToCart.length} addWishList={addWishList.length} />
 
       <Routes>
         <Route
@@ -102,7 +87,6 @@ function App() {
             </>
           }
         />
-
         <Route
           path="/wishlist"
           element={
@@ -114,7 +98,6 @@ function App() {
             />
           }
         />
-
         <Route
           path="/carts"
           element={
@@ -127,10 +110,9 @@ function App() {
           }
         />
       </Routes>
-      <footer className="bg-[#f1f1f0]">
-        <Footer1 />
-        <Footer2 />
-      </footer>
+
+      <Footer1 />
+      <Footer2 />
     </>
   );
 }
