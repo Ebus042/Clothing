@@ -70,7 +70,7 @@ const Header = ({ addToCart, addWishList }) => {
           </button>
         </div>
         {/* Mobile icons */}
-        <div className="flex lg:hidden items-center gap-4">
+        <div>
           <div
             onClick={() => navigate("/wishlist")}
             className="relative cursor-pointer"
