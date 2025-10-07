@@ -3,6 +3,7 @@ import { navbar } from "../../data";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll"; // 👈 add this import
 
 const Header = ({ addToCart, addWishList }) => {
   const [clicked, setClicked] = useState(false);
@@ -12,18 +13,21 @@ const Header = ({ addToCart, addWishList }) => {
   return (
     <header
       className="shadow py-4 font-jost fixed w-full z-20 
-    top-0 left-0 bg-[#f1f1f0]"
+      top-0 left-0 bg-[#f1f1f0]"
     >
       <nav
         className="flex justify-between items-center
-       mx-5 lg:ml-10 lg:mr-20 xl:mx-5"
+        mx-5 lg:ml-10 lg:mr-20 xl:mx-5"
       >
         {/* Logo */}
-
         <div>
-          <a href="/" className="font-bold text-3xl cursor-pointer">
+          {/* ✅ use navigate for home to prevent page reload */}
+          <p
+            onClick={() => navigate("/")}
+            className="font-bold text-3xl cursor-pointer"
+          >
             NEA-DEV
-          </a>
+          </p>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -31,7 +35,7 @@ const Header = ({ addToCart, addWishList }) => {
           <button
             onClick={() => setClicked(!clicked)}
             className="lg:hidden bg-gray-200 p-2 z-20 hover:bg-slate-300
-          transition-all duration-500 ease-in-out rounded-md"
+            transition-all duration-500 ease-in-out rounded-md"
           >
             {clicked ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -40,15 +44,28 @@ const Header = ({ addToCart, addWishList }) => {
         {/* Desktop Nav */}
         {location.pathname === "/" && (
           <div className="hidden lg:flex items-center gap-10 uppercase text-[#545454] lg:text-lg">
-            {navbar.map((item) => (
-              <a
-                key={item.id}
-                href={item.href}
-                className="cursor-pointer hover:scale-125 hover:text-red-500 transition duration-300"
-              >
-                {item.label}
-              </a>
-            ))}
+            {navbar.map((item) =>
+              item.href.startsWith("#") ? (
+                <ScrollLink
+                  key={item.id}
+                  to={item.href.replace("#", "")} // remove '#' and match the section id
+                  smooth={true}
+                  offset={-90} // adjust for your fixed header height
+                  duration={600}
+                  className="cursor-pointer hover:scale-125 hover:text-red-500 transition duration-300"
+                >
+                  {item.label}
+                </ScrollLink>
+              ) : (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className="cursor-pointer hover:scale-125 hover:text-red-500 transition duration-300"
+                >
+                  {item.label}
+                </a>
+              )
+            )}
           </div>
         )}
 
@@ -57,14 +74,14 @@ const Header = ({ addToCart, addWishList }) => {
           <div onClick={() => navigate("/wishlist")} className="relative">
             <p
               className="cursor-pointer text-xl hover:scale-125
-               hover:text-red-500
-            transition-all duration-500 ease-in-out"
+              hover:text-red-500
+              transition-all duration-500 ease-in-out"
             >
               Wishlist
               {addWishList > 0 && (
                 <span
                   className="absolute -top-3 -right-4
-              text-[13px] px-1 py-0.2 rounded-full bg-red-500 text-white"
+                  text-[13px] px-1 py-0.2 rounded-full bg-red-500 text-white"
                 >
                   {addWishList}
                 </span>
@@ -74,14 +91,14 @@ const Header = ({ addToCart, addWishList }) => {
           <div onClick={() => navigate("/carts")} className="relative">
             <p
               className="cursor-pointer text-xl hover:scale-125
-               hover:text-red-500
-            transition-all duration-500 ease-in-out"
+              hover:text-red-500
+              transition-all duration-500 ease-in-out"
             >
               Cart
               {addToCart > 0 && (
                 <span
                   className="absolute -top-3 -right-4
-              text-[13px] px-1 py-0.5 rounded-full bg-red-500 text-white"
+                  text-[13px] px-1 py-0.5 rounded-full bg-red-500 text-white"
                 >
                   {addToCart}
                 </span>
@@ -100,7 +117,7 @@ const Header = ({ addToCart, addWishList }) => {
             {addWishList > 0 && (
               <span
                 className="absolute -top-2 -right-2 text-[14px] px-1.5 
-              py-0.5 bg-red-500 text-white rounded-full"
+                py-0.5 bg-red-500 text-white rounded-full"
               >
                 {addWishList}
               </span>
@@ -111,7 +128,7 @@ const Header = ({ addToCart, addWishList }) => {
             {addToCart > 0 && (
               <span
                 className="absolute -top-2 -right-2 text-[14px] px-1.5 
-              py-0.5 bg-red-500 text-white rounded-full"
+                py-0.5 bg-red-500 text-white rounded-full"
               >
                 {addToCart}
               </span>
@@ -131,22 +148,34 @@ const Header = ({ addToCart, addWishList }) => {
             animate={{ x: "50%" }} // stops halfway (50% viewport width shown)
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.4 }}
-            className="fixed top-0 right-0 w-80  h-full bg-gray-100 shadow-lg p-6 uppercase text-[#545454] text-lg z-40"
+            className="fixed top-0 right-0 w-80 h-full bg-gray-100 shadow-lg p-6 uppercase text-[#545454] text-lg z-40"
           >
-            <div
-              onClick={() => setClicked(!clicked)}
-              className="flex flex-col space-y-6 mt-10"
-            >
-              {navbar.map((item) => (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  className="block cursor-pointer hover:text-red-500
-                   duration-500 ease-in-out hover:pl-4 transition-all"
-                >
-                  {item.label}
-                </a>
-              ))}
+            <div className="flex flex-col space-y-6 mt-10">
+              {navbar.map((item) =>
+                item.href.startsWith("#") ? (
+                  <ScrollLink
+                    key={item.id}
+                    to={item.href.replace("#", "")}
+                    smooth={true}
+                    offset={-90}
+                    duration={600}
+                    onClick={() => setClicked(false)} // close menu after click
+                    className="block cursor-pointer hover:text-red-500
+                    duration-500 ease-in-out hover:pl-4 transition-all"
+                  >
+                    {item.label}
+                  </ScrollLink>
+                ) : (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    className="block cursor-pointer hover:text-red-500
+                    duration-500 ease-in-out hover:pl-4 transition-all"
+                  >
+                    {item.label}
+                  </a>
+                )
+              )}
             </div>
           </motion.div>
         )}

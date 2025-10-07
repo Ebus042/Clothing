@@ -88,7 +88,9 @@ function App() {
                 <CustomersReview />
                 <BlogPost />
                 <BrandLogo />
-                <NewsLetter />
+                <section id="contact">
+                  <NewsLetter />
+                </section>
                 <Instagram />
               </main>
             </>
