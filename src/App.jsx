@@ -16,7 +16,7 @@ import Footer1 from "./components/Footer1";
 import CustomersReview from "./components/CustomersReview";
 import Footer2 from "./components/Footer2";
 
-import { Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Wishlist from "./components/Wishlist";
 import AddCart from "./components/AddCart";
 import ScrollToTop from "./components/ScrollToTop";
@@ -52,7 +52,7 @@ function App() {
   }
 
   return (
-    <>
+    <HashRouter>
       <ScrollToTop />
       <Header addToCart={addToCart.length} addWishList={addWishList.length} />
 
@@ -132,7 +132,7 @@ function App() {
         <Footer1 />
         <Footer2 />
       </footer>
-    </>
+    </HashRouter>
   );
 }
 
