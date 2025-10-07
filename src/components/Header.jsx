@@ -62,6 +62,13 @@ const Header = ({ addToCart, addWishList }) => {
 
         {/* Mobile icons */}
         <div className="flex lg:hidden items-center gap-4">
+          {/* Mobile menu toggle */}
+          <button
+            onClick={() => setClicked(!clicked)}
+            className="bg-gray-200 p-2 rounded-md"
+          >
+            {clicked ? <X size={24} /> : <Menu size={24} />}
+          </button>
           <div
             onClick={() => navigate("/wishlist")}
             className="relative cursor-pointer"
@@ -86,14 +93,6 @@ const Header = ({ addToCart, addWishList }) => {
           </div>
           <button>
             <Search />
-          </button>
-
-          {/* Mobile menu toggle */}
-          <button
-            onClick={() => setClicked(!clicked)}
-            className="bg-gray-200 p-2 rounded-md"
-          >
-            {clicked ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </nav>
