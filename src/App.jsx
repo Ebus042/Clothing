@@ -1,8 +1,5 @@
 import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import ScrollToTop from "./components/ScrollToTop";
-
 import Hero from "./components/Hero";
 import Features from "./components/Features";
 import Cart from "./components/Cart";
@@ -19,32 +16,37 @@ import Footer1 from "./components/Footer1";
 import CustomersReview from "./components/CustomersReview";
 import Footer2 from "./components/Footer2";
 
+import { Route, Routes } from "react-router-dom";
 import Wishlist from "./components/Wishlist";
 import AddCart from "./components/AddCart";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const [addToCart, setAddToCart] = useState([]);
   const [addWishList, setAddWishList] = useState([]);
 
-  // Wishlist logic
+  // Wishlist handlers
   function handleWishList(item) {
-    setAddWishList((prev) =>
-      prev.find((p) => p.id === item.id)
-        ? prev.filter((p) => p.id !== item.id)
-        : [...prev, item]
-    );
+    setAddWishList((prev) => {
+      const exists = prev.find((p) => p.id === item.id);
+      if (exists) return prev.filter((p) => p.id !== item.id);
+      return [...prev, item];
+    });
   }
+
   function removeWishlist(id) {
     setAddWishList((prev) => prev.filter((item) => item.id !== id));
   }
 
-  // Cart logic
+  // Cart handlers
   function handleCart(item) {
     setAddToCart((prev) => [...prev, item]);
   }
+
   function removeCart(id) {
     setAddToCart((prev) => prev.filter((item) => item.id !== id));
   }
+
   function clearCart() {
     setAddToCart([]);
   }
@@ -55,7 +57,7 @@ function App() {
       <Header addToCart={addToCart.length} addWishList={addWishList.length} />
 
       <Routes>
-        {/* Home page */}
+        {/* Homepage */}
         <Route
           path="/"
           element={

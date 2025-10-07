@@ -1,42 +1,47 @@
 import { Heart, Menu, Search, ShoppingCart, X } from "lucide-react";
 import { navbar } from "../../data";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = ({ addToCart, addWishList }) => {
   const [clicked, setClicked] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Scroll to section on the homepage
+  // Smooth scroll helper
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) section.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Handle nav click (sections or pages)
+  // Handle navigation click
   const handleNavClick = (href) => {
     if (href.startsWith("#")) {
       // Scroll sections on homepage
-      if (location.pathname === "/") {
-        scrollToSection(href.replace("#", ""));
-      } else {
-        navigate(`/#${href.replace("#", "")}`);
-      }
+      if (location.pathname === "/") scrollToSection(href.replace("#", ""));
+      else navigate("/#" + href.replace("#", "")); // navigate to home with hash
     } else {
-      // Navigate to separate page
-      navigate(`/${href}`);
+      // Navigate to other pages
+      navigate("/" + href.replace("/", ""));
     }
-    setClicked(false);
+    setClicked(false); // close mobile menu
   };
+
+  // Scroll to hash on page load
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      setTimeout(() => scrollToSection(id), 300);
+    }
+  }, [location]);
 
   return (
     <header className="shadow py-4 font-jost fixed w-full z-20 top-0 left-0 bg-[#f1f1f0]">
       <nav className="flex justify-between items-center mx-5 lg:ml-10 lg:mr-20 xl:mx-5">
         {/* Logo */}
         <p
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/#")}
           className="font-bold text-3xl cursor-pointer"
         >
           NEA-DEV
@@ -56,7 +61,7 @@ const Header = ({ addToCart, addWishList }) => {
         </div>
 
         {/* Desktop icons */}
-        <div className="hidden lg:flex items-center gap-10 text-[#545454]">
+        <div className="hidden lg:flex items-center gap-6">
           <div
             onClick={() => navigate("/wishlist")}
             className="relative cursor-pointer"
@@ -84,7 +89,7 @@ const Header = ({ addToCart, addWishList }) => {
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu toggle */}
         <button
           onClick={() => setClicked(!clicked)}
           className="lg:hidden bg-gray-200 p-2 rounded-md"
