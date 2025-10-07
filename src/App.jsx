@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -15,8 +14,8 @@ import BrandLogo from "./components/BrandLogo";
 import NewsLetter from "./components/NewsLetter";
 import Instagram from "./components/Instagram";
 import Footer1 from "./components/Footer1";
-import Footer2 from "./components/Footer2";
 import CustomersReview from "./components/CustomersReview";
+import Footer2 from "./components/Footer2";
 import Wishlist from "./components/Wishlist";
 import AddCart from "./components/AddCart";
 import ScrollToTop from "./components/ScrollToTop";
@@ -25,31 +24,23 @@ function App() {
   const [addToCart, setAddToCart] = useState([]);
   const [addWishList, setAddWishList] = useState([]);
 
-  // Wishlist handling
-  function handleWishList(item) {
-    setAddWishList((prev) => {
-      const exists = prev.find((p) => p.id === item.id);
-      if (exists) return prev.filter((p) => p.id !== item.id);
-      return [...prev, item];
-    });
-  }
+  const handleWishList = (item) => {
+    setAddWishList((prev) =>
+      prev.find((p) => p.id === item.id)
+        ? prev.filter((p) => p.id !== item.id)
+        : [...prev, item]
+    );
+  };
 
-  // Cart handling
-  function handleCart(item) {
-    setAddToCart((prev) => [...prev, item]);
-  }
+  const handleCart = (item) => setAddToCart((prev) => [...prev, item]);
 
-  function removeWishlist(id) {
+  const removeWishlist = (id) =>
     setAddWishList((prev) => prev.filter((item) => item.id !== id));
-  }
 
-  function clearCart() {
-    setAddToCart([]);
-  }
-
-  function removeCart(id) {
+  const removeCart = (id) =>
     setAddToCart((prev) => prev.filter((item) => item.id !== id));
-  }
+
+  const clearCart = () => setAddToCart([]);
 
   return (
     <>
@@ -57,7 +48,6 @@ function App() {
       <Header addToCart={addToCart.length} addWishList={addWishList.length} />
 
       <Routes>
-        {/* Home page */}
         <Route
           path="/"
           element={
@@ -101,7 +91,6 @@ function App() {
           }
         />
 
-        {/* Wishlist page */}
         <Route
           path="/wishlist"
           element={
@@ -114,15 +103,14 @@ function App() {
           }
         />
 
-        {/* Cart page */}
         <Route
           path="/carts"
           element={
             <AddCart
-              handleCart={handleCart}
-              clearCart={clearCart}
               addToCart={addToCart}
+              handleCart={handleCart}
               removeCart={removeCart}
+              clearCart={clearCart}
             />
           }
         />

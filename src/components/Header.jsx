@@ -2,23 +2,18 @@ import { Heart, Menu, Search, ShoppingCart, X } from "lucide-react";
 import { navbar } from "../../data";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ addToCart, addWishList }) => {
   const [clicked, setClicked] = useState(false);
+  const navigate = useNavigate();
 
-  // Scroll to section
-  const scrollToSection = (id) => {
-    const section = document.getElementById(id);
-    if (section) section.scrollIntoView({ behavior: "smooth" });
-  };
-
-  // Handle nav click
   const handleNavClick = (href) => {
     if (href.startsWith("#")) {
-      scrollToSection(href.replace("#", ""));
+      const section = document.getElementById(href.replace("#", ""));
+      if (section) section.scrollIntoView({ behavior: "smooth" });
     } else {
-      // For pages
-      window.location.href = `#/${href.replace("/", "")}`;
+      navigate(`/${href.replace("/", "")}`);
     }
     setClicked(false);
   };
@@ -28,13 +23,13 @@ const Header = ({ addToCart, addWishList }) => {
       <nav className="flex justify-between items-center mx-5 lg:ml-10 lg:mr-20 xl:mx-5">
         {/* Logo */}
         <p
-          onClick={() => (window.location.href = "#/")}
+          onClick={() => navigate("/")}
           className="font-bold text-3xl cursor-pointer"
         >
           NEA-DEV
         </p>
 
-        {/* Desktop Nav */}
+        {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-10 uppercase text-[#545454] lg:text-lg">
           {navbar.map((item) => (
             <span
@@ -45,12 +40,30 @@ const Header = ({ addToCart, addWishList }) => {
               {item.label}
             </span>
           ))}
+          {/* Desktop Wishlist & Cart as text links */}
+          <span
+            onClick={() => navigate("/wishlist")}
+            className="cursor-pointer hover:scale-125 hover:text-red-500 transition duration-300"
+          >
+            Wishlist {addWishList > 0 && `(${addWishList})`}
+          </span>
+          <span
+            onClick={() => navigate("/carts")}
+            className="cursor-pointer hover:scale-125 hover:text-red-500 transition duration-300"
+          >
+            Cart {addToCart > 0 && `(${addToCart})`}
+          </span>
         </div>
 
-        {/* Desktop Icons */}
-        <div className="hidden lg:flex items-center gap-10 text-[#545454]">
+        {/* Desktop search icon */}
+        <div className="hidden lg:flex items-center">
+          <Search className="cursor-pointer w-6 h-6" />
+        </div>
+
+        {/* Mobile icons */}
+        <div className="flex lg:hidden items-center gap-4">
           <div
-            onClick={() => (window.location.href = "#/wishlist")}
+            onClick={() => navigate("/wishlist")}
             className="relative cursor-pointer"
           >
             <Heart className="w-6 h-6" />
@@ -60,9 +73,8 @@ const Header = ({ addToCart, addWishList }) => {
               </span>
             )}
           </div>
-
           <div
-            onClick={() => (window.location.href = "#/carts")}
+            onClick={() => navigate("/carts")}
             className="relative cursor-pointer"
           >
             <ShoppingCart className="w-6 h-6" />
@@ -72,22 +84,21 @@ const Header = ({ addToCart, addWishList }) => {
               </span>
             )}
           </div>
-
           <button>
             <Search />
           </button>
-        </div>
 
-        {/* Mobile menu */}
-        <button
-          onClick={() => setClicked(!clicked)}
-          className="lg:hidden bg-gray-200 p-2 rounded-md"
-        >
-          {clicked ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          {/* Mobile menu toggle */}
+          <button
+            onClick={() => setClicked(!clicked)}
+            className="bg-gray-200 p-2 rounded-md"
+          >
+            {clicked ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
-      {/* Mobile Slide Menu */}
+      {/* Mobile slide menu */}
       <AnimatePresence>
         {clicked && (
           <motion.div
@@ -108,13 +119,13 @@ const Header = ({ addToCart, addWishList }) => {
                 </span>
               ))}
               <span
-                onClick={() => (window.location.href = "#/wishlist")}
+                onClick={() => navigate("/wishlist")}
                 className="cursor-pointer hover:text-red-500"
               >
                 Wishlist
               </span>
               <span
-                onClick={() => (window.location.href = "#/carts")}
+                onClick={() => navigate("/carts")}
                 className="cursor-pointer hover:text-red-500"
               >
                 Cart
