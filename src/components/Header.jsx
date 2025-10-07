@@ -1,53 +1,40 @@
 import { Heart, Menu, Search, ShoppingCart, X } from "lucide-react";
 import { navbar } from "../../data";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = ({ addToCart, addWishList }) => {
   const [clicked, setClicked] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  // Smooth scroll helper
+  // Scroll to section
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) section.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Handle navigation click
+  // Handle nav click
   const handleNavClick = (href) => {
     if (href.startsWith("#")) {
-      // Scroll sections on homepage
-      if (location.pathname === "/") scrollToSection(href.replace("#", ""));
-      else navigate("/#" + href.replace("#", "")); // navigate to home with hash
+      scrollToSection(href.replace("#", ""));
     } else {
-      // Navigate to other pages
-      navigate("/" + href.replace("/", ""));
+      // For pages
+      window.location.href = `#/${href.replace("/", "")}`;
     }
-    setClicked(false); // close mobile menu
+    setClicked(false);
   };
-
-  // Scroll to hash on page load
-  useEffect(() => {
-    if (location.hash) {
-      const id = location.hash.replace("#", "");
-      setTimeout(() => scrollToSection(id), 300);
-    }
-  }, [location]);
 
   return (
     <header className="shadow py-4 font-jost fixed w-full z-20 top-0 left-0 bg-[#f1f1f0]">
       <nav className="flex justify-between items-center mx-5 lg:ml-10 lg:mr-20 xl:mx-5">
         {/* Logo */}
         <p
-          onClick={() => navigate("/#")}
+          onClick={() => (window.location.href = "#/")}
           className="font-bold text-3xl cursor-pointer"
         >
           NEA-DEV
         </p>
 
-        {/* Desktop nav */}
+        {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-10 uppercase text-[#545454] lg:text-lg">
           {navbar.map((item) => (
             <span
@@ -60,10 +47,10 @@ const Header = ({ addToCart, addWishList }) => {
           ))}
         </div>
 
-        {/* Desktop icons */}
-        <div className="hidden lg:flex items-center gap-6">
+        {/* Desktop Icons */}
+        <div className="hidden lg:flex items-center gap-10 text-[#545454]">
           <div
-            onClick={() => navigate("/wishlist")}
+            onClick={() => (window.location.href = "#/wishlist")}
             className="relative cursor-pointer"
           >
             <Heart className="w-6 h-6" />
@@ -73,8 +60,9 @@ const Header = ({ addToCart, addWishList }) => {
               </span>
             )}
           </div>
+
           <div
-            onClick={() => navigate("/carts")}
+            onClick={() => (window.location.href = "#/carts")}
             className="relative cursor-pointer"
           >
             <ShoppingCart className="w-6 h-6" />
@@ -84,12 +72,13 @@ const Header = ({ addToCart, addWishList }) => {
               </span>
             )}
           </div>
+
           <button>
             <Search />
           </button>
         </div>
 
-        {/* Mobile menu toggle */}
+        {/* Mobile menu */}
         <button
           onClick={() => setClicked(!clicked)}
           className="lg:hidden bg-gray-200 p-2 rounded-md"
@@ -98,7 +87,7 @@ const Header = ({ addToCart, addWishList }) => {
         </button>
       </nav>
 
-      {/* Mobile slide menu */}
+      {/* Mobile Slide Menu */}
       <AnimatePresence>
         {clicked && (
           <motion.div
@@ -119,13 +108,13 @@ const Header = ({ addToCart, addWishList }) => {
                 </span>
               ))}
               <span
-                onClick={() => navigate("/wishlist")}
+                onClick={() => (window.location.href = "#/wishlist")}
                 className="cursor-pointer hover:text-red-500"
               >
                 Wishlist
               </span>
               <span
-                onClick={() => navigate("/carts")}
+                onClick={() => (window.location.href = "#/carts")}
                 className="cursor-pointer hover:text-red-500"
               >
                 Cart

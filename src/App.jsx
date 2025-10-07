@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -13,10 +15,8 @@ import BrandLogo from "./components/BrandLogo";
 import NewsLetter from "./components/NewsLetter";
 import Instagram from "./components/Instagram";
 import Footer1 from "./components/Footer1";
-import CustomersReview from "./components/CustomersReview";
 import Footer2 from "./components/Footer2";
-
-import { HashRouter, Route, Routes } from "react-router-dom";
+import CustomersReview from "./components/CustomersReview";
 import Wishlist from "./components/Wishlist";
 import AddCart from "./components/AddCart";
 import ScrollToTop from "./components/ScrollToTop";
@@ -25,7 +25,7 @@ function App() {
   const [addToCart, setAddToCart] = useState([]);
   const [addWishList, setAddWishList] = useState([]);
 
-  // Wishlist handlers
+  // Wishlist handling
   function handleWishList(item) {
     setAddWishList((prev) => {
       const exists = prev.find((p) => p.id === item.id);
@@ -34,30 +34,30 @@ function App() {
     });
   }
 
-  function removeWishlist(id) {
-    setAddWishList((prev) => prev.filter((item) => item.id !== id));
-  }
-
-  // Cart handlers
+  // Cart handling
   function handleCart(item) {
     setAddToCart((prev) => [...prev, item]);
   }
 
-  function removeCart(id) {
-    setAddToCart((prev) => prev.filter((item) => item.id !== id));
+  function removeWishlist(id) {
+    setAddWishList((prev) => prev.filter((item) => item.id !== id));
   }
 
   function clearCart() {
     setAddToCart([]);
   }
 
+  function removeCart(id) {
+    setAddToCart((prev) => prev.filter((item) => item.id !== id));
+  }
+
   return (
-    <HashRouter>
+    <>
       <ScrollToTop />
       <Header addToCart={addToCart.length} addWishList={addWishList.length} />
 
       <Routes>
-        {/* Homepage */}
+        {/* Home page */}
         <Route
           path="/"
           element={
@@ -132,7 +132,7 @@ function App() {
         <Footer1 />
         <Footer2 />
       </footer>
-    </HashRouter>
+    </>
   );
 }
 
