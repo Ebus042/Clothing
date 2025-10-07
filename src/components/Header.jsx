@@ -40,6 +40,8 @@ const Header = ({ addToCart, addWishList }) => {
               {item.label}
             </span>
           ))}
+        </div>
+        <div className="hidden lg:flex gap-10 text-2xl items-center justify-center">
           {/* Desktop Wishlist & Cart as text links */}
           <span
             onClick={() => navigate("/wishlist")}
@@ -53,24 +55,23 @@ const Header = ({ addToCart, addWishList }) => {
           >
             Cart {addToCart > 0 && `(${addToCart})`}
           </span>
+          {/* Desktop search icon */}
+          <div className="hidden lg:flex items-center">
+            <Search className="cursor-pointer w-6 h-6" />
+          </div>
         </div>
 
-        {/* Desktop search icon */}
-        <div className="hidden lg:flex items-center">
-          <Search className="cursor-pointer w-6 h-6" />
-        </div>
-
-        <div>
+        <div className="lg:hidden">
           {/* Mobile menu toggle */}
           <button
             onClick={() => setClicked(!clicked)}
-            className="bg-gray-200 p-2 rounded-md z-50"
+            className="bg-gray-200 p-2 rounded-md"
           >
             {clicked ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
         {/* Mobile icons */}
-        <div>
+        <div className="lg:hidden flex items-center gap-6">
           <div
             onClick={() => navigate("/wishlist")}
             className="relative cursor-pointer"
@@ -81,22 +82,22 @@ const Header = ({ addToCart, addWishList }) => {
                 {addWishList}
               </span>
             )}
-
-            <div
-              onClick={() => navigate("/carts")}
-              className="relative cursor-pointer"
-            >
-              <ShoppingCart className="w-6 h-6" />
-              {addToCart > 0 && (
-                <span className="absolute -top-3 -right-3 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[12px]">
-                  {addToCart}
-                </span>
-              )}
-            </div>
-            <button>
-              <Search />
-            </button>
           </div>
+
+          <div
+            onClick={() => navigate("/carts")}
+            className="relative cursor-pointer"
+          >
+            <ShoppingCart className="w-6 h-6" />
+            {addToCart > 0 && (
+              <span className="absolute -top-3 -right-3 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[12px]">
+                {addToCart}
+              </span>
+            )}
+          </div>
+          <button>
+            <Search />
+          </button>
         </div>
       </nav>
 
@@ -108,7 +109,7 @@ const Header = ({ addToCart, addWishList }) => {
             animate={{ x: "0%" }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 right-0 w-56 h-full bg-gray-100 p-4 uppercase text-[#545454] z-40"
+            className="fixed top-0 right-0 w-44 h-full bg-gray-100 p-4 uppercase text-[#545454]"
           >
             <div className="flex flex-col gap-6 mt-10">
               {navbar.map((item) => (
@@ -120,18 +121,6 @@ const Header = ({ addToCart, addWishList }) => {
                   {item.label}
                 </span>
               ))}
-              <span
-                onClick={() => navigate("/wishlist")}
-                className="cursor-pointer hover:text-red-500"
-              >
-                Wishlist
-              </span>
-              <span
-                onClick={() => navigate("/carts")}
-                className="cursor-pointer hover:text-red-500"
-              >
-                Cart
-              </span>
             </div>
           </motion.div>
         )}
