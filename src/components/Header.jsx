@@ -1,39 +1,30 @@
 import { Heart, Menu, Search, ShoppingCart, X } from "lucide-react";
 import { navbar } from "../../data";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Header = ({ addToCart, addWishList }) => {
   const [clicked, setClicked] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
 
-  // Scroll to section on the homepage
+  // Scroll to section
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
+    if (section) section.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Handle clicks on navbar links
+  // Handle navigation
   const handleNavClick = (href) => {
-    const sectionId = href.replace("#", "");
-    const isHome =
-      location.hash === "" ||
-      location.hash === "#/" ||
-      location.pathname === "/";
-
-    if (!isHome) {
-      // Navigate to home first with hash
-      window.location.href = "#/";
-      setTimeout(() => scrollToSection(sectionId), 300);
+    if (href.startsWith("#")) {
+      // Scroll sections on homepage
+      if (location.pathname === "/") scrollToSection(href.replace("#", ""));
+      else window.location.href = `/#${href.replace("#", "")}`;
     } else {
-      scrollToSection(sectionId);
+      // Navigate to another page
+      window.location.href = `#/${href.replace("/", "")}`;
     }
-
-    setClicked(false); // close mobile menu
+    setClicked(false);
   };
 
   return (
@@ -41,21 +32,13 @@ const Header = ({ addToCart, addWishList }) => {
       <nav className="flex justify-between items-center mx-5 lg:ml-10 lg:mr-20 xl:mx-5">
         {/* Logo */}
         <p
-          onClick={() => (window.location.href = "#/")}
+          onClick={() => (window.location.href = "/#")}
           className="font-bold text-3xl cursor-pointer"
         >
           NEA-DEV
         </p>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setClicked(!clicked)}
-          className="lg:hidden bg-gray-200 p-2 z-20 hover:bg-slate-300 transition-all duration-500 ease-in-out rounded-md"
-        >
-          {clicked ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {/* Desktop Navbar */}
+        {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-10 uppercase text-[#545454] lg:text-lg">
           {navbar.map((item) => (
             <span
@@ -68,89 +51,76 @@ const Header = ({ addToCart, addWishList }) => {
           ))}
         </div>
 
-        {/* Desktop Icons */}
-        <div className="hidden lg:flex items-center z-50 gap-10 text-[#545454]">
+        {/* Desktop icons */}
+        <div className="hidden lg:flex items-center gap-10 text-[#545454]">
           <div
             onClick={() => (window.location.href = "#/wishlist")}
             className="relative cursor-pointer"
           >
             <Heart className="w-6 h-6" />
             {addWishList > 0 && (
-              <span className="absolute -top-3 -right-4 text-[13px] px-1 py-0.2 rounded-full bg-red-500 text-white">
+              <span className="absolute -top-3 -right-3 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[12px]">
                 {addWishList}
               </span>
             )}
           </div>
-
           <div
             onClick={() => (window.location.href = "#/carts")}
             className="relative cursor-pointer"
           >
             <ShoppingCart className="w-6 h-6" />
             {addToCart > 0 && (
-              <span className="absolute -top-3 -right-4 text-[13px] px-1 py-0.5 rounded-full bg-red-500 text-white">
+              <span className="absolute -top-3 -right-3 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[12px]">
                 {addToCart}
               </span>
             )}
           </div>
-
           <button>
             <Search />
           </button>
         </div>
 
-        {/* Mobile Icons */}
-        <div className="flex lg:hidden items-center gap-4 text-lg font-semibold">
-          <div
-            onClick={() => (window.location.href = "#/wishlist")}
-            className="relative"
-          >
-            <Heart className="w-8 h-8" />
-            {addWishList > 0 && (
-              <span className="absolute -top-2 -right-2 text-[14px] px-1.5 py-0.5 bg-red-500 text-white rounded-full">
-                {addWishList}
-              </span>
-            )}
-          </div>
-
-          <div
-            onClick={() => (window.location.href = "#/carts")}
-            className="relative"
-          >
-            <ShoppingCart className="w-8 h-8" />
-            {addToCart > 0 && (
-              <span className="absolute -top-2 -right-2 text-[14px] px-1.5 py-0.5 bg-red-500 text-white rounded-full">
-                {addToCart}
-              </span>
-            )}
-          </div>
-
-          <button>
-            <Search />
-          </button>
-        </div>
+        {/* Mobile menu */}
+        <button
+          onClick={() => setClicked(!clicked)}
+          className="lg:hidden bg-gray-200 p-2 rounded-md"
+        >
+          {clicked ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </nav>
 
-      {/* Mobile Slide-in Menu */}
+      {/* Mobile slide menu */}
       <AnimatePresence>
         {clicked && (
           <motion.div
             initial={{ x: "100%" }}
-            animate={{ x: "50%" }}
+            animate={{ x: "0%" }}
             exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.4 }}
-            className="fixed top-0 right-0 w-80 h-full bg-gray-100 shadow-lg p-6 uppercase text-[#545454] text-lg z-40"
+            transition={{ duration: 0.3 }}
+            className="fixed top-0 right-0 w-64 h-full bg-gray-100 p-6 uppercase text-[#545454] z-40"
           >
-            <div className="flex flex-col space-y-6 mt-10">
+            <div className="flex flex-col gap-6 mt-10">
               {navbar.map((item) => (
                 <span
                   key={item.id}
                   onClick={() => handleNavClick(item.href)}
-                  className="block cursor-pointer hover:text-red-500 duration-500 ease-in-out hover:pl-4 transition-all"
+                  className="cursor-pointer hover:text-red-500"
                 >
                   {item.label}
                 </span>
               ))}
+              <span
+                onClick={() => (window.location.href = "#/wishlist")}
+                className="cursor-pointer hover:text-red-500"
+              >
+                Wishlist
+              </span>
+              <span
+                onClick={() => (window.location.href = "#/carts")}
+                className="cursor-pointer hover:text-red-500"
+              >
+                Cart
+              </span>
             </div>
           </motion.div>
         )}
