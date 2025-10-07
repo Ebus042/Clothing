@@ -60,29 +60,28 @@ const Header = ({ addToCart, addWishList }) => {
           <Search className="cursor-pointer w-6 h-6" />
         </div>
 
+        <div>
+          {/* Mobile menu toggle */}
+          <button
+            onClick={() => setClicked(!clicked)}
+            className="bg-gray-200 p-2 rounded-md z-50"
+          >
+            {clicked ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
         {/* Mobile icons */}
         <div className="flex lg:hidden items-center gap-4">
-          <div>
-            {/* Mobile menu toggle */}
-            <button
-              onClick={() => setClicked(!clicked)}
-              className="bg-gray-200 p-2 rounded-md z-50"
-            >
-              {clicked ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
           <div
             onClick={() => navigate("/wishlist")}
             className="relative cursor-pointer"
           >
-            <div>
-              <Heart className="w-6 h-6" />
-              {addWishList > 0 && (
-                <span className="absolute -top-3 -right-3 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[12px]">
-                  {addWishList}
-                </span>
-              )}
-            </div>
+            <Heart className="w-6 h-6" />
+            {addWishList > 0 && (
+              <span className="absolute -top-3 -right-3 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[12px]">
+                {addWishList}
+              </span>
+            )}
+
             <div
               onClick={() => navigate("/carts")}
               className="relative cursor-pointer"
