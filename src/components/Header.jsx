@@ -2,27 +2,31 @@ import { Heart, Menu, Search, ShoppingCart, X } from "lucide-react";
 import { navbar } from "../../data";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = ({ addToCart, addWishList }) => {
   const [clicked, setClicked] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // Scroll to section
+  // Scroll to section on the homepage
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) section.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Handle navigation
+  // Handle nav click (sections or pages)
   const handleNavClick = (href) => {
     if (href.startsWith("#")) {
       // Scroll sections on homepage
-      if (location.pathname === "/") scrollToSection(href.replace("#", ""));
-      else window.location.href = `/#${href.replace("#", "")}`;
+      if (location.pathname === "/") {
+        scrollToSection(href.replace("#", ""));
+      } else {
+        navigate(`/#${href.replace("#", "")}`);
+      }
     } else {
-      // Navigate to another page
-      window.location.href = `#/${href.replace("/", "")}`;
+      // Navigate to separate page
+      navigate(`/${href}`);
     }
     setClicked(false);
   };
@@ -32,7 +36,7 @@ const Header = ({ addToCart, addWishList }) => {
       <nav className="flex justify-between items-center mx-5 lg:ml-10 lg:mr-20 xl:mx-5">
         {/* Logo */}
         <p
-          onClick={() => (window.location.href = "/#")}
+          onClick={() => navigate("/")}
           className="font-bold text-3xl cursor-pointer"
         >
           NEA-DEV
@@ -54,7 +58,7 @@ const Header = ({ addToCart, addWishList }) => {
         {/* Desktop icons */}
         <div className="hidden lg:flex items-center gap-10 text-[#545454]">
           <div
-            onClick={() => (window.location.href = "/Clothing/#/wishlist")}
+            onClick={() => navigate("/wishlist")}
             className="relative cursor-pointer"
           >
             <Heart className="w-6 h-6" />
@@ -65,7 +69,7 @@ const Header = ({ addToCart, addWishList }) => {
             )}
           </div>
           <div
-            onClick={() => (window.location.href = "/Clothing/#/carts")}
+            onClick={() => navigate("/carts")}
             className="relative cursor-pointer"
           >
             <ShoppingCart className="w-6 h-6" />
@@ -110,13 +114,13 @@ const Header = ({ addToCart, addWishList }) => {
                 </span>
               ))}
               <span
-                onClick={() => (window.location.href = "#/wishlist")}
+                onClick={() => navigate("/wishlist")}
                 className="cursor-pointer hover:text-red-500"
               >
                 Wishlist
               </span>
               <span
-                onClick={() => (window.location.href = "#/carts")}
+                onClick={() => navigate("/carts")}
                 className="cursor-pointer hover:text-red-500"
               >
                 Cart
