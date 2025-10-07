@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Marcellus&family=Poppins:wght@300;400;500;600;700&display=swap"); */
+
+body {
+  background-color: white;
+}
+html {
+  scroll-behavior: smooth;
+  /* overflow-y: scroll; */
+  /* scroll-padding-top: 0; */
+}
+
+.mySwiper {
+  background: transparent !important;
+}
+
+.mySwiper .swiper-pagination {
+  bottom: 1rem; /* default is usually ~0.5rem, increase if needed */
+}
+.testimonialSwiper .swiper-slide {
+  transform: scale(0.85); /* smaller by default */
+  transition: transform 0.3s ease;
+  opacity: 0.5;
+}
+
+.testimonialSwiper .swiper-slide-active {
+  opacity: 1; /* keep the center slide fully visible */
+  transform: scale(1);
+}
+
+.testimonialSwiper .swiper-pagination-bullet {
+  background: #ccc; /* your default color */
+  opacity: 1; /* keep visible */
+  width: 14px;
+  height: 14px;
+}
+
+/* active bullet */
+.testimonialSwiper .swiper-pagination-bullet-active {
+  background: #565656; /* your active color */
+}
